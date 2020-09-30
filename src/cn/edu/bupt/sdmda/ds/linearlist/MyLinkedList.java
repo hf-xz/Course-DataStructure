@@ -24,17 +24,22 @@ public class MyLinkedList<T> implements LinearList<T>{
 	int _size;
 
 	public MyLinkedList(int s, T init) {
-		// TODO Auto-generated constructor stub
+		init(s, init);
 	}
 
 	public MyLinkedList() {
-		// TODO Auto-generated constructor stub
+		init(0, null);
 	}
 
 	@Override
 	public void init(int s, T init) {
-		// TODO Auto-generated method stub
-
+		_size = s;
+		Node cur = _head;
+		for( int i = 0 ; i < s ; i ++) {
+			Node newnode = new Node(init);
+			cur._next = newnode;
+			cur = newnode;
+		}
 	}
 
 	@Override
