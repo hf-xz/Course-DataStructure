@@ -15,7 +15,7 @@
             "name": "Debug (Launch)-DSMain",
             "request": "launch",
             "mainClass": "cn.edu.bupt.sdmda.main.DSMain",
-            "args": "linearlist 0 1 2 3 4"
+            "args": "linearlist 4 3 2 1 0"
         }
     ]
 }

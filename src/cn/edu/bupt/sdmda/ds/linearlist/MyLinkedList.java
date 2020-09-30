@@ -59,7 +59,7 @@ public class MyLinkedList<T> implements LinearList<T>{
 		Node cur = _head;
 		Node next = _head._next;
 		while ( next != null ) {
-			cur.next = null;
+			cur._next = null;
 			cur = next;
 			next = cur._next;
 		}
@@ -87,6 +87,7 @@ public class MyLinkedList<T> implements LinearList<T>{
 				Node newnext = cur._next._next;
 				cur._next._next = null;
 				cur._next = newnext;
+				break;
 			}
 			cur = cur._next;
 		}
@@ -99,8 +100,7 @@ public class MyLinkedList<T> implements LinearList<T>{
 		}
 		_size --;
 		Node cur = _head;
-		while ( i -- > 0 )
-			cur = cur._next;
+		while ( i -- > 0 ) cur = cur._next;
 		Node tmp = cur._next;
 		cur._next = cur._next._next;
 		tmp._next = null;
