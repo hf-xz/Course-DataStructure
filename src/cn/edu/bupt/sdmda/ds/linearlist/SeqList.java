@@ -66,7 +66,7 @@ public class SeqList<T> implements LinearList<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public T deleteAt(int i) {
-		if( checkReadableRange(i) ) {
+		if( ! checkReadableRange(i) ) {
 			throw new IndexOutOfBoundsException();
 		}
 		_size --;
@@ -78,7 +78,7 @@ public class SeqList<T> implements LinearList<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public T get(int i) {
-		if(! checkReadableRange(i) ) {
+		if( ! checkReadableRange(i) ) {
 			throw new IndexOutOfBoundsException();
 		}
 		return (T)_data[i];
@@ -86,7 +86,7 @@ public class SeqList<T> implements LinearList<T>{
 
 	@Override
 	public void set(int i, T t) {
-		if( !checkReadableRange(i) ) {
+		if( ! checkReadableRange(i) ) {
 			throw new IndexOutOfBoundsException();
 		}
 		_data[i] = t;
@@ -120,12 +120,12 @@ public class SeqList<T> implements LinearList<T>{
 	}
 
 	private boolean checkReadableRange(int i){
-		if( i > 0 && i < getSize() -1 ) return true;
+		if( i >= 0 && i < getSize() ) return true;
 		else return false;
 	}
 
 	private boolean checkWritableRange(int i){
-		if ( i > 0 && i < getSize() ) return true;
+		if ( i >= 0 && i <= getSize() ) return true;
 		else return false;
 	}
 }

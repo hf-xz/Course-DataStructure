@@ -34,8 +34,9 @@ public class MyLinkedList<T> implements LinearList<T>{
 	@Override
 	public void init(int s, T init) {
 		_size = s;
+		_head = new Node();
 		Node cur = _head;
-		for( int i = 0 ; i < s ; i ++) {
+		for ( int i = 0 ; i < s ; i ++ ) {
 			Node newnode = new Node(init);
 			cur._next = newnode;
 			cur = newnode;
@@ -44,78 +45,111 @@ public class MyLinkedList<T> implements LinearList<T>{
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return true;
+		return _size == 0;
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return _size;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		_size = 0;
+		Node cur = _head;
+		Node next = _head._next;
+		while ( next != null ) {
+			cur.next = null;
+			cur = next;
+			next = cur._next;
+		}
 	}
 
 	@Override
 	public void insert(int i, T t) {
-		// i=_size is OK!
-		// TODO Auto-generated method stub
-
+		if ( ! checkWritableRange(i) ) {
+			throw new IndexOutOfBoundsException();
+		}
+		_size ++;
+		Node cur = _head;
+		while ( i -- > 0 ) cur = cur._next;
+		Node tmp = new Node(t);
+		tmp._next = cur._next;
+		cur._next = tmp;
 	}
 
 	@Override
 	public void delete(T t) {
-		// TODO Auto-generated method stub
-
+		_size --;
+		Node cur = _head;
+		while ( cur._next != null ) {
+			if ( cur._next._ele.equals(t) ) {
+				Node newnext = cur._next._next;
+				cur._next._next = null;
+				cur._next = newnext;
+			}
+			cur = cur._next;
+		}
 	}
 
 	@Override
 	public T deleteAt(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if ( ! checkReadableRange(i) ) {
+			throw new IndexOutOfBoundsException();
+		}
+		_size --;
+		Node cur = _head;
+		while ( i -- > 0 )
+			cur = cur._next;
+		Node tmp = cur._next;
+		cur._next = cur._next._next;
+		tmp._next = null;
+		return tmp._ele;
 	}
 
 	@Override
 	public T get(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if ( ! checkReadableRange(i) ) {
+			throw new IndexOutOfBoundsException();
+		}
+		Node cur = _head;
+		while ( i -- > 0 ) cur = cur._next;
+		return cur._next._ele;
 	}
 
 	@Override
 	public void set(int i, T t) {
-		// TODO Auto-generated method stub
-
+		if ( ! checkReadableRange(i) ) {
+			throw new IndexOutOfBoundsException();
+		}
+		Node cur = _head;
+		while ( i -- > 0 ) cur = cur._next;
+		cur._next._ele = t;
 	}
 
 	@Override
 	public int find(T t) {
-		// TODO Auto-generated method stub
-		return 0;
+		Node cur = _head;
+		int i = 0;
+		while ( cur._next != null ) {
+			if ( cur._next._ele.equals(t) ) return i;
+			cur = cur._next;
+			i ++;
+		}
+		return -1;
 	}
 
 	@Override
 	public LinearList<T> sort() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Node getNodeBefore(int i){
-		// assume i is a valid value
 		return null;
 	}
 
 	private boolean checkReadableRange(int i){
-
-		return true;
+		return ( i >= 0 && i < getSize() );
 	}
 
 	private boolean checkWritableRange(int i){
-	
-		return true;
+		return ( i >= 0 && i <= getSize() );
 	}
 
 
