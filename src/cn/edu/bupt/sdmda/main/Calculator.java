@@ -1,9 +1,7 @@
 package cn.edu.bupt.sdmda.main;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Queue;
 import java.util.Stack;
 
 public class Calculator {
@@ -38,7 +36,6 @@ public class Calculator {
 
 	public Calculator(String str) {
 		exp = str;
-prt(exp);
 		numBuilder = new StringBuilder();
 	}
 
@@ -46,11 +43,26 @@ prt(exp);
 	public int calc(){
 		for(int i = 0; i < exp.length(); i ++) {
 			if(getFlag(i) == 0) {
-prt("char:" + exp.charAt(i) + "is part of number");
 				numBuilder.append(exp.charAt(i));
 			}
+			else {
+				if(numBuilder.length() > 0) {
+					numsStack.push(Integer.valueOf(numBuilder.toString()));
+					numBuilder.delete(0, numBuilder.length());
+				}
+				compareAndCalc(i);
+			}
+//			prt("cur: " + exp.charAt(i));
+//			prt("nums: " + numsStack);
+//			prt("ops: " + opsStack);
+//			prt("");
 		}
-		return 0;
+		if(numBuilder.length() != 0) {
+			numsStack.push(Integer.valueOf(numBuilder.toString()));
+		}
+		while(!opsStack.empty())
+			popAndCalcAndPush();
+		return numsStack.pop();
 	}
 
 
@@ -60,7 +72,7 @@ prt("char:" + exp.charAt(i) + "is part of number");
 	private int getFlag(int i){
 		char c = exp.charAt(i);
 		if(c == '-') {
-			if(numBuilder.length() == 0 || numBuilder.charAt(numBuilder.length()-1) == '(') {
+			if(i == 0 || exp.charAt(i - 1) == '(') {
 				return 0;
 			}
 			else return 1;
@@ -68,15 +80,31 @@ prt("char:" + exp.charAt(i) + "is part of number");
 		else if(ops.indexOf(c) != -1) {
 			return 1;
 		}
-		else if (c < '9' && c > '0') return 0;
-		throw new IllegalArgumentException();
+		else if (c <= '9' && c >= '0') return 0;
+		throw new IllegalArgumentException(String.format("%c is Illegal", c));
 	}
 
 
 	// pop two numbers from stack, one operator from stack
 	// calculate result and push in stack
 	private void popAndCalcAndPush(){
-
+		int a, b, res;
+		char op;
+		b = numsStack.pop(); a = numsStack.pop();
+		op = opsStack.pop();
+		switch(op) {
+			case '+':
+				res = a + b; break;
+			case '-':
+				res = a - b; break;
+			case '*':
+				res = a * b; break;
+			case '/':
+				res = a / b; break;
+			default:
+				throw new IllegalArgumentException();
+		}
+		numsStack.push(res);
 	}
 
 
@@ -87,10 +115,27 @@ prt("char:" + exp.charAt(i) + "is part of number");
 	// '(' always be pushed into stack
 	// ')' always popAndCalculate until ')'
 	private void compareAndCalc(int i){
-		
+		char c = exp.charAt(i);
+		if(c == '(') {
+			opsStack.push(c);
+		}
+		else if(c == ')') {
+			while(opsStack.peek() != '(')
+				popAndCalcAndPush();
+			opsStack.pop();
+		}
+		else if(opsStack.empty() || prior.get(c) > prior.get(opsStack.peek())) {
+			opsStack.push(c);
+		}
+		else {
+			do{
+				popAndCalcAndPush();
+			}while(!opsStack.empty() && prior.get(c) <= prior.get(opsStack.peek()));
+			opsStack.push(c);
+		}
 	}
 	
-	private void prt(Object obj) {
-		System.out.println(obj);
-	}
+//	private void prt(Object obj) {
+//		System.out.println(obj);
+//	}
 }
