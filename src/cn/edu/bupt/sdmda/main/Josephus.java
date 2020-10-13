@@ -12,6 +12,7 @@ public class Josephus {
         int n , k;
         n = in.nextInt();
         k = in.nextInt();
+        in.close();
         officalSolve(n,k);
         prt("==============");
         mySolve(n,k);
@@ -46,8 +47,6 @@ public class Josephus {
     	prt("初始状态："); prt(ll);
         prt("开始出局：");
         int cur = 0;
-//        ll.deleteAt(cur);
-//        prt("test " + ll);
         while(ll.getSize() > 1) {
         	cur = ( cur + k - 1 ) % ll.getSize();
         	ll.deleteAt(cur);

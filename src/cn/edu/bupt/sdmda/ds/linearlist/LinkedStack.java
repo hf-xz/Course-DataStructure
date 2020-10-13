@@ -1,66 +1,67 @@
 package cn.edu.bupt.sdmda.ds.linearlist;
 
 public class LinkedStack<T> extends MyLinkedList<T>  implements MyStack<T>{
+	
+	public LinkedStack() {
+		super();
+	}
 
 	@Override
 	public T pop() {
-		// TODO Auto-generated method stub
-		return null;
+		if(super._size == 0) throw new IndexOutOfBoundsException();
+		return super.deleteAt(0);
 	}
 
 	@Override
 	public void push(T t) {
-		// TODO Auto-generated method stub
-
+		super.insert(0, t);
 	}
 
 	@Override
 	public T getTop(){
-		return null;
+		if(super._size == 0) throw new IndexOutOfBoundsException();
+		return super.get(0);
 	}
 
 	@Override
 	public void insert(int i, T t) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void delete(T t) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public T deleteAt(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public T get(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void set(int i, T t) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public int find(T t) {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public LinearList<T> sort() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
-
+	public String toString() {
+		String res = super.toString();
+		res = "LinkedStack: top[" + res.substring(1,res.length()-1) + "]";
+		return res;
+	}
 
 }

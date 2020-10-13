@@ -133,37 +133,38 @@ public class DSMain {
 		// push
 		int i = 1;
 		for (; i < args.length / 2; ++i) {
-			s.push(args[i]);
+			s.push(args[i]); System.out.println(s);
 		}
 		// pop
 		while (!s.isEmpty()) {
-			System.out.println(s.pop());
+			System.out.println(s.pop()); System.out.println(s);
 		}
 		System.out.println("===half===");
 		for (; i < args.length; ++i) {
-			s.push(args[i]);
+			s.push(args[i]); System.out.println(s);
 		}
 		while (!s.isEmpty()) {
-			System.out.println(s.pop());
+			System.out.println(s.pop()); System.out.println(s);
 		}
 
 		LinkedStack<String> ls = new LinkedStack<>();
+		System.out.println("↑SeqStack-------↓LinkedStack");
 		System.out.println("Push and pop half of input");
 		// push
 		i = 1;
 		for (; i < args.length / 2; ++i) {
-			ls.push(args[i]);
+			ls.push(args[i]); System.out.println(ls);
 		}
 		// pop
 		while (!ls.isEmpty()) {
-			System.out.println(ls.pop());
+			System.out.println(ls.pop()); System.out.println(ls);
 		}
 		System.out.println("===half===");
 		for (; i < args.length; ++i) {
-			ls.push(args[i]);
+			ls.push(args[i]); System.out.println(ls);
 		}
 		while (!ls.isEmpty()) {
-			System.out.println(ls.pop());
+			System.out.println(ls.pop()); System.out.println(ls);
 		}
 
 	}
@@ -213,12 +214,11 @@ public class DSMain {
 		System.out.println(c.calc());
 	}
 
-        public static void convert(String src, int sBase, int dBase) {
-                System.out.println(NumBaseConvertor.Convert(src, sBase, dBase));
-        }
-
+    public static void convert(String src, int sBase, int dBase) {
+            System.out.println(NumBaseConvertor.Convert(src, sBase, dBase));
+    }
 	
-
+    
 	public static void testTreeMain(String[] args) {
 		Integer[] data = new Integer[args.length - 1];
 		for (int i = 0; i < data.length; ++i) {

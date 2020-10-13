@@ -1,5 +1,6 @@
 package cn.edu.bupt.sdmda.main;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
@@ -37,11 +38,18 @@ public class Calculator {
 
 	public Calculator(String str) {
 		exp = str;
+prt(exp);
 		numBuilder = new StringBuilder();
 	}
 
 
 	public int calc(){
+		for(int i = 0; i < exp.length(); i ++) {
+			if(getFlag(i) == 0) {
+prt("char:" + exp.charAt(i) + "is part of number");
+				numBuilder.append(exp.charAt(i));
+			}
+		}
 		return 0;
 	}
 
@@ -50,7 +58,18 @@ public class Calculator {
 	// return 1 for operator
 	// note the '-' which can be both number or operator
 	private int getFlag(int i){
-		return 0;
+		char c = exp.charAt(i);
+		if(c == '-') {
+			if(numBuilder.length() == 0 || numBuilder.charAt(numBuilder.length()-1) == '(') {
+				return 0;
+			}
+			else return 1;
+		}
+		else if(ops.indexOf(c) != -1) {
+			return 1;
+		}
+		else if (c < '9' && c > '0') return 0;
+		throw new IllegalArgumentException();
 	}
 
 
@@ -69,5 +88,9 @@ public class Calculator {
 	// ')' always popAndCalculate until ')'
 	private void compareAndCalc(int i){
 		
+	}
+	
+	private void prt(Object obj) {
+		System.out.println(obj);
 	}
 }

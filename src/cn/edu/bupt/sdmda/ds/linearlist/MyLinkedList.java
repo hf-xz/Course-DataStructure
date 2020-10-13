@@ -2,7 +2,7 @@ package cn.edu.bupt.sdmda.ds.linearlist;
 
 public class MyLinkedList<T> implements LinearList<T>{
 
-	class Node{
+	public class Node{
 		public T _ele;
 		public Node _next;
 		public Node(){
@@ -20,8 +20,8 @@ public class MyLinkedList<T> implements LinearList<T>{
 		}
 	}
 
-	Node _head;
-	int _size;
+	protected Node _head;
+	protected int _size;
 
 	public MyLinkedList(int s, T init) {
 		init(s, init);
@@ -93,7 +93,6 @@ public class MyLinkedList<T> implements LinearList<T>{
 		}
 	}
 	
-
 	@Override
 	public T deleteAt(int i) {
 		if ( ! checkReadableRange(i) ) {
@@ -153,7 +152,9 @@ public class MyLinkedList<T> implements LinearList<T>{
 			res += (cur._next._ele.toString() + ", ");
 			cur = cur._next;
 		}
-		res = res.substring(0, res.length()-2) + "]";
+		if(res.length() > 1)
+			res = res.substring(0, res.length()-2);
+		res += "]";
 		return res;
 	}
 
