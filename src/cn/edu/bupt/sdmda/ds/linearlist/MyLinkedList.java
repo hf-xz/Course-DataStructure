@@ -92,6 +92,7 @@ public class MyLinkedList<T> implements LinearList<T>{
 			cur = cur._next;
 		}
 	}
+	
 
 	@Override
 	public T deleteAt(int i) {
@@ -142,6 +143,18 @@ public class MyLinkedList<T> implements LinearList<T>{
 	@Override
 	public LinearList<T> sort() {
 		return null;
+	}
+	
+	@Override
+	public String toString() {
+		String res = "[";
+		Node cur = _head;
+		for(int i = 0 ; i < getSize() ; i ++) {
+			res += (cur._next._ele.toString() + ", ");
+			cur = cur._next;
+		}
+		res = res.substring(0, res.length()-2) + "]";
+		return res;
 	}
 
 	private boolean checkReadableRange(int i){
