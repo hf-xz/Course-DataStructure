@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class SeqList<T> implements LinearList<T>{
 
-	private Object[] _data;
+	protected Object[] _data;
 	private int _size;
 
 	public SeqList(int s, T init){
