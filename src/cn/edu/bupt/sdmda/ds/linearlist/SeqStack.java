@@ -47,7 +47,6 @@ public class SeqStack<T> extends SeqList<T> implements MyStack<T>{
 	@Override
 	public void set(int i, T t) {
 		throw new UnsupportedOperationException();
-
 	}
 
 	@Override

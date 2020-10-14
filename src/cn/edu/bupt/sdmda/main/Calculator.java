@@ -135,7 +135,7 @@ public class Calculator {
 		}
 	}
 	
-//	private void prt(Object obj) {
-//		System.out.println(obj);
-//	}
+	private void prt(Object obj) {
+		System.out.println(obj);
+	}
 }
