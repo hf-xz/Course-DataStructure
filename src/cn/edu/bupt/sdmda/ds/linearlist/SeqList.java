@@ -45,7 +45,7 @@ public class SeqList<T> implements LinearList<T>{
 			throw new IndexOutOfBoundsException();
 		}
 		if(_size == _data.length) {
-			Object[] newdata = new Object[_data.length + 1];
+			Object[] newdata = new Object[_data.length * 2];
 			System.arraycopy(_data, 0, newdata, 0, i);
 			System.arraycopy(_data, i, newdata, i+1, _data.length - i);
 			_data = newdata;

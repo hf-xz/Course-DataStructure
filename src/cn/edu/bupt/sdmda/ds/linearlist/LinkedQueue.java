@@ -12,13 +12,12 @@ public class LinkedQueue<T> extends MyLinkedList<T> implements MyQueue<T> {
 
 	@Override
 	public T poll() {
-		return super.deleteAt(super.getSize());
+		return super.deleteAt(super.getSize()-1);
 	}
 
 	@Override
 	public T getHead() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.deleteAt(0);
 	}
 
 }
