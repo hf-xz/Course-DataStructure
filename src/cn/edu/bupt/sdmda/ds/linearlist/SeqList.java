@@ -12,7 +12,8 @@ public class SeqList<T> implements LinearList<T>{
 	}
 
 	public SeqList(){
-		init(0, null);
+		init(5, null);
+		_size = 0;
 	}
 
 	@Override

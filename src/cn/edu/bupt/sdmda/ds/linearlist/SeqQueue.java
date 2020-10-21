@@ -7,7 +7,7 @@ public class SeqQueue<T> extends SeqList<T> implements MyQueue<T>{
 	private int _head, _tail;
 
 	private boolean full() {
-		return (_tail+1) % super._data.length == _head;
+		return super._data.length == 0 || (_tail+1) % super._data.length == _head;
 	}
 	
 	private boolean empty() {
@@ -21,23 +21,37 @@ public class SeqQueue<T> extends SeqList<T> implements MyQueue<T>{
 
 	@Override
 	public void offer(T t) {
+		super.insert(_tail, t);
+		_tail = (_tail + 1) % super._data.length;
 		if(full()) {
 			Object[] newdata = new Object[super._data.length * 2];
-			//TODO copy old data to new array
+			int tot = 0, len = newdata.length;
+			while(!empty()) {
+				newdata[tot++] = super._data[_head];
+				_head = (_head+1) % len;
+			}
+			_head = 0; _tail =tot;
+			super._data = newdata;
 		}
-		else super.insert(_tail++, t);
 	}
 
 	@Override
 	public T poll() {
-		// TODO Auto-generated method stub
-		return null;
+		if(empty()) throw new IndexOutOfBoundsException();
+		_tail = (_tail - 1) % super._data.length;
+		return (T)super._data[_tail];
 	}
 
 	@Override
 	public T getHead() {
-		// TODO Auto-generated method stub
-    return null;
+		if(empty()) throw new IndexOutOfBoundsException();
+		int tmp = _head;
+		_head = (_head + 1) % super._data.length;
+		return (T)super._data[tmp];
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return empty();
+	}
 }

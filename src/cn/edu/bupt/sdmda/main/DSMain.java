@@ -201,7 +201,7 @@ public class DSMain {
 		while (!sq.isEmpty()) {
 			System.out.println(sq.poll());
 		}
-
+		System.out.println("↑SeqQueue--------LinkedQueue↓");
 		LinkedQueue<String> lq = new LinkedQueue<String>();
 		System.out.println("Offer and poll half of input");
 		// offer
