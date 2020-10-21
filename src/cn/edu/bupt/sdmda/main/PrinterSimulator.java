@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import cn.edu.bupt.sdmda.ds.linearlist.LinkedQueue;
+import cn.edu.bupt.sdmda.ds.linearlist.MyLinkedList;
+
 public class PrinterSimulator {
 	// maximum time tick to simulate
 	public static int MAXTICK;
@@ -96,21 +99,36 @@ class Printer {
 	// queue and list to store tasks
 	private Queue<Task> _queue;
 	private List<Task> _allTasks;
+	private Task curTask;
 
 	public Printer(int ppm, Queue<Task> q, List<Task> l) {
-		// TODO: YOUR CODE
-
+		_pagePerMinute = ppm;
+		_queue = q;
+		_allTasks = l;
+		curTask = null;
 	}
 
-	public void tick(int time) {
+	public void tick(long time) {
 		// if printer is not busy and queue is not empty
 		// get a new task from queue
 		// calculate the remaining time of this task
-		// TODO: YOUR CODE
-
-		
+		if(_remainingTime == 0 && !_queue.isEmpty()) {
+			curTask = _queue.poll();
+			curTask.start(time);
+			_remainingTime = curTask.getPageNum()/_pagePerMinute;
+		}
 		// time elapsed
-		// TODO: YOUR CODE
+		if(_remainingTime > 1) _remainingTime--;
+		else if(_remainingTime == 1) {
+			_remainingTime--;
+			curTask.finish(time);
+			curTask = null;
+		}
+		Task newtask = Task.genTask();
+		if(newtask != null) {
+			_allTasks.add(newtask);
+			_queue.add(newtask);
+		}
 	}
 }
 
@@ -128,12 +146,18 @@ class Task {
 	public static int MAXPAGENUM = 20;
 
 	// initialize this task
-	public Task(int pageNum, long time) {
+	public Task(int pageNum) {
+		_pageNum = pageNum;
+		_endTime = -1;
 		System.out.println("Task generated, pages: " + pageNum);
-		// TODO: YOUR CODE
+	}
+	
+	// record the start time of this task
+	public void start(long time) {
+		_startTime = time;
 	}
 
-	// record the endtime of this task
+	// record the end time of this task
 	public void finish(long time) {
 		_endTime = time;
 	}
@@ -151,8 +175,13 @@ class Task {
 	
 	// generate a random number
 	// and decide to generate a new task or not
-	public static Task genTask(int time) {
-		// TODO: YOUR CODE
+	public static Task genTask() {
+		double rand = Math.random();
+		if(rand < TASKGENPROB) {
+			int pagenum = (int) (Math.random()*MAXPAGENUM);
+			Task newtask = new Task(pagenum);
+			return newtask;
+		}
 		return null;
 	}
 }

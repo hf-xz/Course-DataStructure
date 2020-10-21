@@ -17,7 +17,7 @@ import cn.edu.bupt.sdmda.ds.tree.BiTreeNode;
 
 public class DSMain {
 	public static void main(String[] args) {
-
+		boolean res = false;
 		if (args.length >= 2) {
 			switch (args[0]) {
 			case "linearlist":
@@ -37,7 +37,6 @@ public class DSMain {
 					Integer.parseInt(args[3]));
 				break;
 			case "bracketsmatch":
-				boolean res = false;
 				if(args.length==2) {
 					res = BracketsMatch.match(args[1]);
 				}
@@ -60,6 +59,10 @@ public class DSMain {
 				break;
 			case "printer":
 				testPrinter(args);
+				break;
+			case "stackpermutation":
+				res = StackPermutation.judge(args[1], args[2]);
+				System.out.println("Stack permutation is legal:" + res);
 				break;
 			}
 		}
