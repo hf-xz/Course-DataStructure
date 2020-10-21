@@ -5,9 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import cn.edu.bupt.sdmda.ds.linearlist.LinkedQueue;
-import cn.edu.bupt.sdmda.ds.linearlist.MyLinkedList;
-
 public class PrinterSimulator {
 	// maximum time tick to simulate
 	public static int MAXTICK;
@@ -30,12 +27,15 @@ public class PrinterSimulator {
 		System.out.println("Tick " + _currTick);
 		// try to generate a task according the probability 
 		// and add it to the queue if succeeded
-		// TODO: YOUR CODE
-		
+		Task newtask = Task.genTask();
+		if(newtask != null) {
+			_allTasks.add(newtask);
+			//_queue.add(newtask);
+			_printer.addTask(newtask,_currTick);
+		}
 		// printer tick
 		_printer.tick(_currTick);
-		
-		
+				
 		_currTick++;
 	}
 
@@ -53,7 +53,10 @@ public class PrinterSimulator {
 		int sumTasks, sumWaitingTime = 0;
 		sumTasks = _allTasks.size();
 		for (Task t : _allTasks) {
-			sumWaitingTime += t.getWaitingTime();
+			if(t.getWaitingTime() != -1)
+				sumWaitingTime += t.getWaitingTime();
+			System.out.println("pages:" + t.getPageNum());
+			System.out.println("time:" + t.getWaitingTime());
 		}
 		String fmt = "Total %d tasks, wait for %d seconds, average %f seconds";
 		System.out.println(
@@ -82,7 +85,7 @@ public class PrinterSimulator {
 		_printer = new Printer(PPM, _queue, _allTasks);
 
 		// main loop
-		while ((_currTick++) < MAXTICK) {
+		while ((_currTick) < MAXTICK) {
 			tick();
 		}
 		
@@ -97,7 +100,7 @@ class Printer {
 	// remaining time of current task
 	private int _remainingTime;
 	// queue and list to store tasks
-	private Queue<Task> _queue;
+	Queue<Task> _queue;
 	private List<Task> _allTasks;
 	private Task curTask;
 
@@ -107,28 +110,27 @@ class Printer {
 		_allTasks = l;
 		curTask = null;
 	}
+	
+	public void addTask(Task t, long time) {
+		this._queue.add(t);
+		t.start(time);
+	}
 
 	public void tick(long time) {
 		// if printer is not busy and queue is not empty
 		// get a new task from queue
 		// calculate the remaining time of this task
-		if(_remainingTime == 0 && !_queue.isEmpty()) {
-			curTask = _queue.poll();
-			curTask.start(time);
-			_remainingTime = curTask.getPageNum()/_pagePerMinute;
-		}
-		// time elapsed
-		if(_remainingTime > 1) _remainingTime--;
-		else if(_remainingTime == 1) {
-			_remainingTime--;
+		if(_remainingTime == 0 && curTask != null) {
 			curTask.finish(time);
 			curTask = null;
 		}
-		Task newtask = Task.genTask();
-		if(newtask != null) {
-			_allTasks.add(newtask);
-			_queue.add(newtask);
+		if(_remainingTime == 0 && !_queue.isEmpty()) {
+			curTask = _queue.poll();
+			_remainingTime = (int)Math.ceil((double)curTask.getPageNum()/(double)_pagePerMinute*60);
+			System.out.println("reamainning:"+_remainingTime);
 		}
+		// time elapsed
+		if(_remainingTime > 0) _remainingTime--;
 	}
 }
 
@@ -154,11 +156,13 @@ class Task {
 	
 	// record the start time of this task
 	public void start(long time) {
+		System.out.println("task started!" + time);
 		_startTime = time;
 	}
 
 	// record the end time of this task
 	public void finish(long time) {
+		System.out.println("task finshed!" + time);
 		_endTime = time;
 	}
 
@@ -178,7 +182,7 @@ class Task {
 	public static Task genTask() {
 		double rand = Math.random();
 		if(rand < TASKGENPROB) {
-			int pagenum = (int) (Math.random()*MAXPAGENUM);
+			int pagenum = (int) Math.ceil(Math.random()*MAXPAGENUM);
 			Task newtask = new Task(pagenum);
 			return newtask;
 		}
