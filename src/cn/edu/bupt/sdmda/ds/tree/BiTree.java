@@ -11,11 +11,16 @@ public class BiTree<T> {
 	private void createTree(BiTreeNode<T> root, T[] data, int loc){
     // if the left child of root is valid,
     // create a tree whose root is it
-
+		if(data[loc*2] != null) {
+			BiTreeNode<T> leftChild = new BiTreeNode<T>(data[loc*2]);
+			createTree(leftChild, data, loc*2);
+		}
     // if the right child of root is valid,
     // create a tree whose root is it
-
-
+		if(data[loc*2+1] != null) {
+			BiTreeNode<T> rightChild = new BiTreeNode<T>(data[loc*2+1]);
+			createTree(rightChild, data, loc*2+1);
+		}
 	}
 
 	public BiTreeNode<T> getRoot(){
@@ -23,20 +28,20 @@ public class BiTree<T> {
 	}
 
 	public BiTree(T[] data) {
-		// TODO Auto-generated constructor stub
 		// note that the loc starts from 1 not 0
 		_root = new BiTreeNode<T>(data[1]);
 		createTree(_root, data, 1);
 	}
 
 	public BiTree(BiTreeNode<T> root) {
-		// TODO Auto-generated constructor stub
 		_root = root;
 	}
 
 	public int getDepth(BiTreeNode<T> node) {
 		// if node is null return 0
-    // return MAX(depth of left, depth of right)+1
+		if(node == null) return 0;
+		// return MAX(depth of left, depth of right)+1
+		else return MAX()
     return 0;
 	}
 
