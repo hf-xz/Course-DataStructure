@@ -3,6 +3,8 @@ package cn.edu.bupt.sdmda.main;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
+
 import cn.edu.bupt.sdmda.main.Symbol;
 
 import cn.edu.bupt.sdmda.ds.tree.BiTree;
@@ -29,15 +31,24 @@ public class HuffmanTree {
     // NOTE: variable s2n is used to store non-leaf BiTreeNode
     // so if you find a node has a null symbol(non-leaf)
     // please get the node from s2n but not construct is from symbol
-		while(data.size()>1){
-
-				// if data in symbol is not null, means it is leaf node
-				// so construct it from symbol
-
-				// if data in symbol is null, means it is non-leaf node
-				// so get this node from the HashMap
-
+		PriorityQueue<Symbol> pq = new PriorityQueue<>(data);
+		while(pq.size() > 1){
+			Symbol A, B;
+			A = pq.poll();
+			B = pq.poll();
+			// if data in symbol is not null, means it is leaf node
+			// so construct it from symbol
+			if(A.getSymbol() != null) s2n.put(A, new BiTreeNode<Symbol>(A));
+			if(B.getSymbol() != null) s2n.put(B, new BiTreeNode<Symbol>(B));
+			// if data in symbol is null, means it is non-leaf node
+			// so get this node from the HashMap
+			Symbol newsymbol = new Symbol(null,A.getProb()+B.getProb());
+			BiTreeNode<Symbol> newnode = new BiTreeNode<>(newsymbol);
+			newnode.setLeft(s2n.get(A)); newnode.setRight(s2n.get(B));
+			s2n.put(newsymbol, newnode);
+			pq.add(newsymbol);
 		}
+		_tree = new BiTree<Symbol>(s2n.get(pq.poll()));
 	}
 
   // output the encoding of each symbol
