@@ -64,11 +64,14 @@ public class DSMain {
 				res = StackPermutation.judge(args[1], args[2]);
 				System.out.println("Stack permutation is legal:" + res);
 				break;
+			case "heap":
+				testHeapMain(args);
+				break;
 			}
 		}
 
 	}
-
+	
 	public static void testLinearListMain(String[] args) {
 		SeqList<Integer> seql = new SeqList<Integer>(args.length - 1, 0);
 		for (int i = 0; i < args.length - 1; ++i) {
@@ -285,8 +288,9 @@ public class DSMain {
 
 	private static <T> void printQueue(LinkedList<BiTreeNode<T>> queue) {
 		for (BiTreeNode<T> n : queue) {
-			System.out.println(n.getData());
+			System.out.print(n.getData()+" ");
 		}
+		System.out.println();
 	}
 
 	public static void testHuffmanMain(String[] args) {
@@ -359,4 +363,26 @@ public class DSMain {
 		PrinterSimulator.main(args);
 	}
 
+	public static void testHeapMain(String[] args) {
+		ArrayList<Integer> list = new ArrayList<>();
+		for(int i = 1; i < args.length; i++) {
+			list.add(Integer.parseInt(args[i]));
+		}
+		//建堆
+		System.out.println("input: " + list.toString());
+		MyHeap<Integer> heap = new MyHeap<Integer>(list);
+		System.out.println("heap: " + heap);
+		//删除测试
+		System.out.println("====remove half====");
+		for(int i = 0; i < list.size()/2; i++) {
+			System.out.print(heap.remove() + " ");
+		}
+		System.out.println("\n" + heap);
+		//插入测试
+		System.out.println("====insert 3====");
+		int t = list.get(list.size()-1);
+		heap.insert(t); heap.insert(t/2); heap.insert(t*2);
+		System.out.println(heap);
+	}
+	
 }
