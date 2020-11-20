@@ -3,7 +3,9 @@ package cn.edu.bupt.sdmda.main;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
+import cn.edu.bupt.sdmda.SortAlgorithm;
 import cn.edu.bupt.sdmda.ds.hash.MyHash;
 import cn.edu.bupt.sdmda.ds.linearlist.LinearList;
 import cn.edu.bupt.sdmda.ds.linearlist.LinkedQueue;
@@ -67,7 +69,10 @@ public class DSMain {
 			case "heap":
 				testHeapMain(args);
 				break;
-			}
+			case "sort":
+				testSortMain(args);
+				break;
+			}				
 		}
 
 	}
@@ -385,4 +390,50 @@ public class DSMain {
 		System.out.println(heap);
 	}
 	
+	public static void testSortMain(String[] args) {
+		//init
+		int n = Integer.parseInt(args[1]);
+		int m = Integer.parseInt(args[2]);
+		double[] data = new double[n+1];
+		Random r = new Random();
+		for(int i = 1; i <= n; i++) {
+			data[i] = r.nextDouble();
+		}
+		long ans = 0;
+		//test
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.insertSort(data.clone(), n);
+		}
+		System.out.println("Insert:" + Long.toString(ans));
+		ans = 0;
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.selectionSort(data.clone(), n);
+		}
+		System.out.println("Selection:" + Long.toString(ans));
+		ans = 0;
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.bubbleSort(data.clone(), n);
+		}
+		System.out.println("Bubble:" + Long.toString(ans));
+		ans = 0;
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.shellSort(data.clone(), n);
+		}
+		System.out.println("Shell:" + Long.toString(ans));
+		ans = 0;
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.mergeSort(data.clone(), n);
+		}
+		System.out.println("Merge:" + Long.toString(ans));
+		ans = 0;
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.qSort(data.clone(), n);
+		}
+		System.out.println("QSort:" + Long.toString(ans));
+		ans = 0;
+		for(int i = 0; i < m; i++) {
+			ans += SortAlgorithm.heapSort(data.clone(), n);
+		}
+		System.out.println("Heap:" + Long.toString(ans));
+	}
 }

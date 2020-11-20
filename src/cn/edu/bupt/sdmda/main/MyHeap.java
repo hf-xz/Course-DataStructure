@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.lang.model.type.ArrayType;
+
 public class MyHeap<T extends Comparable> {
 	
 	ArrayList<T> _data;
 	int _size;
 	
-	MyHeap(List<T> data) {
+	public MyHeap(List data) {
 		_data = new ArrayList<T>();
 		_data.add(null); _data.addAll(1,data);
 		_size = data.size();
@@ -17,16 +19,18 @@ public class MyHeap<T extends Comparable> {
 			shiftDown(i);
 		}
 	}
-	
+
 	public String toString() {
 		return _data.subList(1, _data.size()).toString() + " size:" + ((Integer)_size).toString();
 	}
 	
 	public T peek() {
+		if(_size <= 0) throw new IndexOutOfBoundsException("heap is empty!");
 		return _data.get(1);
 	}
 	
 	public T remove() {
+		if(_size <= 0) throw new IndexOutOfBoundsException("heap is empty!");
 		Collections.swap(_data,1,_size);
 		_size--;
 		shiftDown(1);
